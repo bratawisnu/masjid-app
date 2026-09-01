@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/console_void"
+    android:paddingStart="64dp"
+    android:paddingEnd="64dp"
+    android:paddingTop="48dp"
+    android:paddingBottom="48dp">
+
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--
+          Five steps, and the numbering is real: the caretaker cannot reach the
+          theme picker before the coordinates exist, so "3 / 5" tells them how
+          much is left rather than decorating the heading.
+        -->
+
+        <!-- Step 1: Mosque identity -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView style="@style/ConsoleStepMark" android:text="Langkah 1 / 5" />
+            <TextView style="@style/ConsoleTitle" android:text="Identitas Masjid" />
+            <TextView
+                style="@style/ConsoleSubtitle"
+                android:layout_marginBottom="28dp"
+                android:text="Nama ini yang akan terbaca jamaah dari shaf paling belakang." />
+
+            <EditText android:id="@+id/input_mosque_name" android:hint="Nama Masjid" />
+            <EditText android:id="@+id/input_address" android:hint="Alamat" />
+            <EditText android:id="@+id/input_city" android:hint="Kota" />
+
+            <LinearLayout style="@style/ConsoleButtonRow" android:layout_marginTop="20dp">
+                <Button android:id="@+id/btn_step1_next" android:text="Lanjut" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Step 2: Location -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView style="@style/ConsoleStepMark" android:text="Langkah 2 / 5" />
+            <TextView style="@style/ConsoleTitle" android:text="Lokasi" />
+            <TextView
+                style="@style/ConsoleSubtitle"
+                android:layout_marginBottom="28dp"
+                android:text="Koordinat masjid menentukan seluruh jadwal. Isi seteliti mungkin." />
+
+            <EditText android:id="@+id/input_latitude"
+                style="@style/ConsoleFieldData"
+                android:hint="Latitude (contoh: -6.2088)"
+                android:inputType="numberDecimal|numberSigned" />
+            <EditText android:id="@+id/input_longitude"
+                style="@style/ConsoleFieldData"
+                android:hint="Longitude (contoh: 106.8456)"
+                android:inputType="numberDecimal|numberSigned" />
+            <EditText android:id="@+id/input_timezone"
+                style="@style/ConsoleFieldData"
+                android:hint="Timezone (contoh: Asia/Jakarta)"
+                android:text="Asia/Jakarta" />
+
+            <LinearLayout style="@style/ConsoleButtonRow" android:layout_marginTop="20dp">
+                <Button android:id="@+id/btn_step2_back" android:text="Kembali" />
+                <Button android:id="@+id/btn_step2_next" android:text="Lanjut"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Step 3: Calculation method -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView style="@style/ConsoleStepMark" android:text="Langkah 3 / 5" />
+            <TextView style="@style/ConsoleTitle" android:text="Metode Perhitungan" />
+            <TextView
+                style="@style/ConsoleSubtitle"
+                android:layout_marginBottom="28dp"
+                android:text="Ikuti metode yang sudah dipakai pengurus masjid selama ini." />
+
+            <Spinner android:id="@+id/spinner_calculation_method" />
+            <Spinner android:id="@+id/spinner_madhab" />
+
+            <LinearLayout style="@style/ConsoleButtonRow" android:layout_marginTop="20dp">
+                <Button android:id="@+id/btn_step3_back" android:text="Kembali" />
+                <Button android:id="@+id/btn_step3_next" android:text="Lanjut"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Step 4: Theme picker -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView style="@style/ConsoleStepMark" android:text="Langkah 4 / 5" />
+            <TextView style="@style/ConsoleTitle" android:text="Pilih Tema" />
+            <TextView
+                style="@style/ConsoleSubtitle"
+                android:layout_marginBottom="20dp"
+                android:text="Warna layar serambi. Bisa diganti kapan saja lewat Panel Kendali." />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/theme_list_container"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </ScrollView>
+
+            <LinearLayout style="@style/ConsoleButtonRow" android:layout_marginTop="16dp">
+                <Button android:id="@+id/btn_step4_back" android:text="Kembali" />
+                <Button android:id="@+id/btn_step4_next" android:text="Lanjut"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Step 5: Confirm -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView style="@style/ConsoleStepMark" android:text="Langkah 5 / 5" />
+            <TextView style="@style/ConsoleTitle" android:text="Konfirmasi" />
+            <TextView
+                style="@style/ConsoleSubtitle"
+                android:layout_marginBottom="20dp"
+                android:text="Periksa sekali lagi, lalu buat PIN untuk mengunci panel ini." />
+
+            <LinearLayout style="@style/ConsolePanel">
+                <TextView android:id="@+id/text_summary"
+                    style="@style/ConsoleValue"
+                    android:lineSpacingExtra="4dp" />
+            </LinearLayout>
+
+            <EditText android:id="@+id/input_admin_pin"
+                style="@style/ConsoleFieldData"
+                android:hint="Buat PIN Admin (4-6 digit)"
+                android:inputType="numberPassword" />
+
+            <LinearLayout style="@style/ConsoleButtonRow" android:layout_marginTop="20dp">
+                <Button android:id="@+id/btn_step5_back" android:text="Kembali" />
+                <Button android:id="@+id/btn_step5_finish" android:text="Mulai"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ViewFlipper>
+</FrameLayout>

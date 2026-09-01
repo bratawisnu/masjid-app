@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Buttons are solid where fields are bracketed, so the two never read as the
+  same control from across the room: a field is an outline you type into, a
+  button is a block you press.
+
+  Focus inverts it — cyan fill, dark label (set in the button style) — rather
+  than merely brightening the border. Inversion survives a dusty TV screen and
+  a cheap panel's washed-out contrast in a way a glow does not.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/console_cyan" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/console_cyan" />
+        </shape>
+    </item>
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/console_panel" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/console_line" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/console_field" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/console_cyan_dim" />
+        </shape>
+    </item>
+
+</selector>

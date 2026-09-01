@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--
+      Console palette — the admin, wizard, PIN and file-picker screens.
+
+      The display side is the mihrab: brass and parchment, read by the
+      congregation. These screens are the instrument panel behind it, driven by
+      one caretaker with a remote, so they run cooler and darker than the
+      display and never compete with it.
+
+      Two signals carry meaning and nothing else does:
+        cyan  — live: this is what the remote is pointing at
+        brass — fixed: saved, locked, authoritative (same brass as the display)
+    -->
+    <color name="console_void">#FF060B14</color>
+    <color name="console_panel">#FF0B1523</color>
+    <color name="console_field">#FF101D2E</color>
+    <color name="console_field_hot">#FF14283C</color>
+    <color name="console_line">#FF1E3350</color>
+
+    <color name="console_cyan">#FF4FD6E0</color>
+    <color name="console_cyan_dim">#FF2C7F8A</color>
+    <color name="console_brass">#FFC9A227</color>
+
+    <color name="console_text">#FFE6F1F5</color>
+    <color name="console_text_muted">#FF8398AD</color>
+    <color name="console_warning">#FFFFB300</color>
+    <color name="console_danger">#FFFF6B6B</color>
+</resources>

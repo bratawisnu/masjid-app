@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head><meta charset="utf-8"><title>rasterize</title>
+<style>body{margin:0;background:#111;color:#ddd;font:13px Menlo,monospace;padding:14px}
+img{display:block;width:960px;margin:10px 0;border:1px solid #333}</style></head>
+<body>
+<div id="log">memuat…</div>
+<script>
+// Rasterises each mockup SVG to a PNG data URL. The page cannot write files,
+// so the PNGs are handed back through window.__png for the caller to save.
+window.__png = {};
+const names = ['e-falak', 'e-falak-lembar'];
+(async () => {
+  const log = document.getElementById('log');
+  for (const n of names) {
+    const svg = await (await fetch(n + '.svg?v=' + performance.now())).text();
+    const blob = new Blob([svg], {type: 'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+    const c = document.createElement('canvas');
+    c.width = 1920; c.height = 1080;
+    const x = c.getContext('2d');
+    x.drawImage(img, 0, 0, 1920, 1080);
+    window.__png[n] = c.toDataURL('image/png');
+    URL.revokeObjectURL(url);
+    const prev = new Image(); prev.src = window.__png[n]; document.body.appendChild(prev);
+    log.textContent = 'siap: ' + Object.keys(window.__png).join(', ');
+  }
+  window.__done = true;
+})();
+</script>
+</body>
+</html>

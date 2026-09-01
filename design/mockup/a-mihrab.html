@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Arah A — Mihrab</title>
+<style>
+  /* ---------------------------------------------------------------
+     ARAH A — "MIHRAB"
+     Palet:  base #0B1220 · surface #16223A · kuningan #C9A227
+             teks #F2EFE6 · redup #7E8AA3 · garis #22304C
+     Huruf:  Avenir Next Condensed (pengganti Archivo Expanded)
+             Baghdad (pengganti Amiri)
+     --------------------------------------------------------------- */
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:#0B1220}
+  body{font-family:"Avenir Next Condensed","Avenir Next",sans-serif;color:#F2EFE6}
+
+  .screen{position:relative;width:1920px;height:1080px}
+
+  /* --- lapisan foto latar (placeholder, bukan foto asli) --- */
+  .photo{position:absolute;inset:0;
+    background:
+      radial-gradient(36% 44% at 20% 26%, rgba(255,196,120,.40), transparent 62%),
+      radial-gradient(28% 36% at 76% 18%, rgba(255,166,86,.28), transparent 60%),
+      radial-gradient(70% 80% at 50% 104%, rgba(6,9,18,.92), transparent 72%),
+      linear-gradient(158deg,#2a1e13 0%,#0d1018 58%,#06080e 100%);
+    transform:scale(1.06) translate(-8px,-6px);}
+  .photo svg{position:absolute;bottom:0;left:0;width:100%;height:64%;opacity:.30}
+  /* scrim terukur — nilainya dihitung dari luminansi foto */
+  .scrim{position:absolute;inset:0;background:#0B1220;opacity:.62}
+
+  .content{position:absolute;inset:0;display:grid;
+    grid-template-rows:132px 1fr 246px 78px;
+    padding:34px 58px 26px;}
+
+  /* ---------------- HEADER ---------------- */
+  header{display:flex;align-items:flex-start;justify-content:space-between;
+    border-bottom:2px solid #22304C;padding-bottom:20px}
+  .mosque{font-size:52px;font-weight:600;letter-spacing:.10em;line-height:1}
+  .city{margin-top:11px;font-size:21px;letter-spacing:.30em;color:#7E8AA3}
+  .dates{text-align:right}
+  .hijri{font-family:Baghdad,serif;font-size:29px;color:#C9A227;direction:rtl}
+  .greg{margin-top:9px;font-size:20px;letter-spacing:.22em;color:#7E8AA3}
+
+  /* ---------------- PANGGUNG + JAM ---------------- */
+  .middle{display:grid;grid-template-columns:1fr 588px;gap:56px;
+    align-items:center;padding:40px 0 8px}
+
+  .eyebrow{font-size:19px;letter-spacing:.34em;color:#C9A227}
+  .rule{height:2px;background:#22304C;margin:16px 0 30px}
+  .notice{font-size:56px;font-weight:500;line-height:1.16;letter-spacing:.005em}
+  .counter{margin-top:30px;font-size:19px;letter-spacing:.14em;color:#7E8AA3;
+    font-family:Menlo,monospace}
+
+  .clock{text-align:right}
+  .time{font-size:196px;font-weight:600;letter-spacing:-.014em;line-height:.84;
+    font-variant-numeric:tabular-nums}
+  .time small{font-size:74px;color:#7E8AA3;letter-spacing:0}
+  .zone{margin-top:22px;font-size:20px;letter-spacing:.30em;color:#7E8AA3}
+
+  /* ---------------- ARKADE MIHRAB ---------------- */
+  .arcade{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;
+    align-items:end;padding-bottom:6px}
+  .bay{position:relative;height:176px;padding:26px 8px 20px;text-align:center;
+    border-radius:50% 50% 0 0 / 34% 34% 0 0;overflow:hidden}
+  .bay .fill{position:absolute;inset:0;background:rgba(255,255,255,.030)}
+  .bay > *:not(.fill){position:relative}
+  .bay .lbl{font-size:23px;letter-spacing:.20em;color:#F2EFE6}
+  .bay .ar{margin-top:7px;font-family:Baghdad,serif;font-size:19px;color:#7E8AA3;direction:rtl}
+  .bay .tm{margin-top:13px;font-size:43px;font-weight:600;
+    font-variant-numeric:tabular-nums;letter-spacing:.008em}
+
+  .bay.past .lbl,.bay.past .ar,.bay.past .tm{color:#4E5A72}
+  .bay.past .fill{background:rgba(255,255,255,.012)}
+
+  /* Elemen tanda tangan: relung berikutnya terangkat keluar dari arkade */
+  .bay.next{height:232px;border-radius:50% 50% 0 0 / 30% 30% 0 0}
+  .bay.next .fill{background:
+      radial-gradient(72% 58% at 50% 24%, rgba(201,162,39,.30), transparent 70%),
+      rgba(255,255,255,.075);
+    box-shadow:inset 0 2px 0 rgba(201,162,39,.55)}
+  .bay.next .lbl{color:#C9A227;letter-spacing:.22em}
+  .bay.next .tm{font-size:50px;color:#F2EFE6}
+  .bay.next .cd{margin-top:12px;font-family:Menlo,monospace;font-size:24px;
+    color:#C9A227;letter-spacing:.06em}
+
+  /* ---------------- TICKER ---------------- */
+  footer{border-top:2px solid #22304C;display:flex;align-items:center;
+    font-size:27px;letter-spacing:.03em;color:#F2EFE6;overflow:hidden;white-space:nowrap}
+
+  /* ---------------- anotasi ---------------- */
+  .note{position:absolute;font-family:Menlo,monospace;font-size:14px;
+    color:#C9A227;letter-spacing:.04em;opacity:.9;z-index:9}
+  .note::before{content:"";position:absolute;background:#C9A227;opacity:.45}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="photo">
+    <svg viewBox="0 0 1920 700" preserveAspectRatio="none">
+      <g fill="#000">
+        <path d="M0 700 V300 Q0 140 150 140 Q300 140 300 300 V700Z"/>
+        <path d="M360 700 V260 Q360 90 530 90 Q700 90 700 260 V700Z"/>
+        <path d="M760 700 V300 Q760 140 910 140 Q1060 140 1060 300 V700Z"/>
+        <path d="M1120 700 V240 Q1120 60 1300 60 Q1480 60 1480 240 V700Z"/>
+        <path d="M1540 700 V300 Q1540 140 1690 140 Q1840 140 1840 300 V700Z"/>
+      </g>
+    </svg>
+  </div>
+  <div class="scrim"></div>
+
+  <div class="content">
+    <header>
+      <div>
+        <div class="mosque">MASJID AL-FALAH</div>
+        <div class="city">JAKARTA SELATAN</div>
+      </div>
+      <div class="dates">
+        <div class="hijri">١٧ رَبيع الأوّل ١٤٤٧</div>
+        <div class="greg">SENIN, 31 AGUSTUS 2026</div>
+      </div>
+    </header>
+
+    <div class="middle">
+      <section>
+        <div class="eyebrow">PENGUMUMAN</div>
+        <div class="rule"></div>
+        <div class="notice">Kajian rutin Ahad pagi bersama Ustaz Abdul Latif, pukul 06.30 di ruang utama. Terbuka untuk jamaah umum.</div>
+        <div class="counter">2 / 4</div>
+      </section>
+      <div class="clock">
+        <div class="time">17:24<small>:08</small></div>
+        <div class="zone">WIB</div>
+      </div>
+    </div>
+
+    <div class="arcade">
+      <div class="bay past"><div class="fill"></div><div class="lbl">IMSAK</div><div class="ar">إمساك</div><div class="tm">04:28</div></div>
+      <div class="bay past"><div class="fill"></div><div class="lbl">SUBUH</div><div class="ar">الفجر</div><div class="tm">04:38</div></div>
+      <div class="bay past"><div class="fill"></div><div class="lbl">TERBIT</div><div class="ar">الشروق</div><div class="tm">05:53</div></div>
+      <div class="bay past"><div class="fill"></div><div class="lbl">DZUHUR</div><div class="ar">الظهر</div><div class="tm">11:56</div></div>
+      <div class="bay past"><div class="fill"></div><div class="lbl">ASHAR</div><div class="ar">العصر</div><div class="tm">15:14</div></div>
+      <div class="bay next"><div class="fill"></div><div class="lbl">MAGHRIB</div><div class="ar">المغرب</div><div class="tm">17:52</div><div class="cd">−00:27:52</div></div>
+      <div class="bay"><div class="fill"></div><div class="lbl">ISYA</div><div class="ar">العشاء</div><div class="tm">19:02</div></div>
+    </div>
+
+    <footer>Infak pembangunan menara telah mencapai Rp 412.750.000 — terima kasih atas dukungan jamaah  ·  Kerja bakti kebersihan masjid Sabtu ba'da Subuh</footer>
+  </div>
+
+  <div class="note" style="left:1236px;top:706px">relung berikutnya terangkat + cahaya kuningan</div>
+</div>
+</body>
+</html>

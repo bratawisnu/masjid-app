@@ -1,0 +1,6 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Kotlin support comes from AGP 9's built-in Kotlin — no org.jetbrains.kotlin.android plugin needed.
+plugins {
+    id 'com.android.application' version '9.3.2' apply false
+    id 'com.google.devtools.ksp' version '2.3.6' apply false
+}

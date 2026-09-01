@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/console_void"
+    android:gravity="center"
+    android:padding="48dp">
+
+    <TextView
+        style="@style/ConsoleStepMark"
+        android:layout_gravity="center_horizontal"
+        android:text="Panel Kendali" />
+
+    <TextView
+        style="@style/ConsoleTitle"
+        android:layout_gravity="center_horizontal"
+        android:text="Masukkan PIN" />
+
+    <TextView
+        style="@style/ConsoleSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="28dp"
+        android:text="Hanya pengurus yang memegang PIN yang bisa mengubah tampilan." />
+
+    <!--
+      The digits are the whole screen here, so they get the widest tracking in
+      the app: at 30sp with 0.5em between them, a caretaker can check what they
+      typed from where the remote actually is, not from in front of the TV.
+    -->
+    <EditText
+        android:id="@+id/input_pin"
+        style="@style/ConsoleFieldData"
+        android:layout_width="300dp"
+        android:inputType="numberPassword"
+        android:hint="••••"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:letterSpacing="0.5"
+        android:maxLength="6" />
+
+    <LinearLayout
+        style="@style/ConsoleButtonRow"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btn_confirm_pin"
+            android:text="Masuk" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_pin_error"
+        android:text="PIN salah. Coba lagi."
+        android:textColor="@color/console_danger"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp" />
+
+</LinearLayout>

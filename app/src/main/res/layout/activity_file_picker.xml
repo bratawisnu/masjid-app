@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/console_void"
+    android:paddingStart="48dp"
+    android:paddingEnd="48dp"
+    android:paddingTop="36dp"
+    android:paddingBottom="36dp">
+
+    <TextView
+        android:id="@+id/text_title"
+        style="@style/ConsoleTitle" />
+
+    <!--
+      The path, in monospace: it is a reading, and the caretaker compares it
+      against what they typed into adb or saw on the flash drive.
+    -->
+    <TextView
+        android:id="@+id/text_location"
+        android:textColor="@color/console_cyan"
+        android:textSize="15sp"
+        android:fontFamily="monospace"
+        android:singleLine="true"
+        android:ellipsize="start"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--
+      Shown in place of the list whenever there is nothing to choose — an empty
+      folder, an unreadable volume, or a refused permission. Each case says what
+      to do next rather than just reporting that the list is empty.
+    -->
+    <TextView
+        android:id="@+id/text_empty"
+        android:textColor="@color/console_text"
+        android:textSize="17sp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/list_files"
+        android:divider="@color/console_line"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/file_row_selector"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        style="@style/ConsoleNote"
+        android:layout_marginTop="14dp"
+        android:text="Tombol Kembali di remote naik satu folder. Tekan lagi di penyimpanan teratas untuk keluar." />
+
+</LinearLayout>

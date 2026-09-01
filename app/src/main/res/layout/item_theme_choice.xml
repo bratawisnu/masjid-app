@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_root"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/console_row"
+    android:focusable="true"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:layout_marginBottom="8dp"
+    android:gravity="center_vertical">
+
+    <!--
+      The swatch is the theme's own background colour, set at runtime. It gets a
+      hairline so the darkest themes still read as a swatch and not as a hole.
+    -->
+    <View
+        android:id="@+id/color_swatch"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:foreground="@drawable/console_swatch_frame"
+        android:layout_marginEnd="16dp" />
+
+    <TextView
+        android:id="@+id/text_theme_name"
+        android:textColor="@color/console_text"
+        android:textSize="17sp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+
+    <RadioButton
+        android:id="@+id/radio_selected"
+        android:button="@drawable/console_radio"
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

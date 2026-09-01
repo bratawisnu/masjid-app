@@ -1,0 +1,106 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.devtools.ksp'
+}
+
+// Release signing creds live in a gitignored keystore.properties at the project
+// root so secrets never land in the repo. Each dev/CI box fills their own copy.
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace 'com.masjid.display'
+    compileSdk = 37
+
+    defaultConfig {
+        applicationId "com.masjid.display"
+        minSdk = 28
+        targetSdk = 36
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
+    buildTypes {
+        debug {
+        }
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
+    testOptions {
+        unitTests {
+            // Palette derives colours through android.graphics.Color and
+            // ColorUtils; without this they'd all stub out to zero and the
+            // contrast assertions would pass vacuously.
+            includeAndroidResources = true
+            returnDefaultValues = false
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.activity:activity-ktx:1.9.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.leanback:leanback:1.2.0'
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.9.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
+
+    implementation 'androidx.room:room-runtime:2.7.0'
+    implementation 'androidx.room:room-ktx:2.7.0'
+    ksp 'androidx.room:room-compiler:2.7.0'
+
+    implementation 'com.github.bumptech.glide:glide:5.0.7'
+    ksp 'com.github.bumptech.glide:compiler:5.0.7'
+
+    implementation 'com.batoulapps.adhan:adhan2:0.0.6'
+    implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.6.1'
+
+    implementation 'androidx.work:work-runtime-ktx:2.10.0'
+
+    // Video slides. HLS is included because a mosque streaming from its own
+    // NVR or a live feed will hand over an .m3u8, and without it that URL
+    // fails at playback with nothing on screen to explain why.
+    implementation 'androidx.media3:media3-exoplayer:1.7.1'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.7.1'
+    implementation 'androidx.media3:media3-ui:1.7.1'
+
+    testImplementation 'junit:junit:4.13.2'
+    // Palette calls android.graphics.Color and ColorUtils; Robolectric gives
+    // the JVM test the real implementations instead of the stubs that would
+    // make every contrast assertion pass vacuously.
+    testImplementation 'org.robolectric:robolectric:4.16.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}

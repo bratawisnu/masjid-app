@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Four bands: header (identity + date), stage (main content + clock),
+  arcade (the seven prayer bays), ticker (announcements).
+
+  The clock has its own container beside the main content rather than sharing
+  the header's — previously both were added to container_header and overlapped
+  whenever a theme placed the clock at TOP.
+
+  The arcade sizes itself to its bays and hangs off the ticker; the stage
+  above comes down to meet it. clipChildren is off along the whole path so the
+  raised bay and its glow can cross the band edge.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/display_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:clipChildren="false">
+
+    <!--
+      Background photo and its scrim, declared first so every band draws over
+      them. Both are oversized by 4% and centred: the root drifts a few pixels
+      for burn-in protection, and at the extreme of that arc a match_parent
+      image would pull a bare edge into view.
+    -->
+    <ImageView
+        android:id="@+id/image_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="1.04"
+        app:layout_constraintWidth_percent="1.04" />
+
+    <View
+        android:id="@+id/view_background_scrim"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="1.04"
+        app:layout_constraintWidth_percent="1.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_header_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.14" />
+
+    <!--
+      Only the rail arrangement uses this now. In the band arrangement the
+      stage runs down to the arcade itself, which is sized by its own content
+      — a fixed guideline there left a dead strip between the two.
+    -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_main_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.64" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_prayer_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
+
+    <!-- Splits the stage between main content and the clock column. -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_clock_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.62" />
+
+    <!--
+      Rail edges, used only when a theme puts the prayer panel at LEFT/RIGHT.
+      A vertical arcade needs a wider column than the horizontal band is tall,
+      because each bay carries the name, the Arabic and the time on one line.
+      The mirrored pair keeps a right-hand rail identical in width to a left.
+    -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_rail_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.26" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_rail_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.74" />
+
+    <!-- Where the clock column ends when a right-hand rail displaces it. -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_clock_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.38" />
+
+    <FrameLayout
+        android:id="@+id/container_header"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline_header_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/container_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/guideline_header_bottom"
+        app:layout_constraintBottom_toTopOf="@id/container_prayer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_clock_start" />
+
+    <FrameLayout
+        android:id="@+id/container_clock"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/guideline_header_bottom"
+        app:layout_constraintBottom_toTopOf="@id/container_prayer"
+        app:layout_constraintStart_toStartOf="@id/guideline_clock_start"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!--
+      Height comes from the arcade itself, not from a guideline. A fixed band
+      was 28% of the panel for content that needs 16%, and the arcade sat at
+      the bottom of it — which read on screen as the prayer times floating far
+      above the ticker with an empty strip between them. Sized to its content
+      and hung off the ticker, the arcade becomes the floor of the composition
+      and the stage above it gets the space back.
+    -->
+    <FrameLayout
+        android:id="@+id/container_prayer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@id/guideline_prayer_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/container_footer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/guideline_prayer_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/container_adzan_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/container_screensaver_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

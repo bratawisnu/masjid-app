@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Arah B — Lentera</title>
+<style>
+  /* ---------------------------------------------------------------
+     ARAH B — "LENTERA"  (rel kiri, panggung jadwal)
+     Palet:  base #101014 · surface #1B1B21 · hijau zamrud #2FA37B
+             teks #ECEAE4 · redup #79798A · garis #2A2A33
+     Rel vertikal di kiri; waktu berikutnya menyorong ke kanan,
+     ke arah panggung — bukan naik.
+     --------------------------------------------------------------- */
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:#101014}
+  body{font-family:"Avenir Next Condensed","Avenir Next",sans-serif;color:#ECEAE4}
+  .screen{position:relative;width:1920px;height:1080px}
+
+  .photo{position:absolute;inset:0;
+    background:
+      radial-gradient(44% 52% at 74% 22%, rgba(120,220,180,.22), transparent 64%),
+      radial-gradient(30% 40% at 24% 12%, rgba(90,150,255,.16), transparent 62%),
+      linear-gradient(172deg,#0f2a24 0%,#12131a 56%,#08080c 100%);}
+  .photo svg{position:absolute;bottom:0;right:0;width:78%;height:70%;opacity:.26}
+  .scrim{position:absolute;inset:0;background:#101014;opacity:.66}
+
+  .content{position:absolute;inset:0;display:grid;
+    grid-template-rows:124px 1fr 74px;padding:32px 56px 24px}
+
+  header{display:flex;align-items:flex-start;justify-content:space-between;
+    border-bottom:2px solid #2A2A33;padding-bottom:18px}
+  .mosque{font-size:48px;font-weight:600;letter-spacing:.11em;line-height:1}
+  .city{margin-top:10px;font-size:20px;letter-spacing:.30em;color:#79798A}
+  .dates{text-align:right}
+  .hijri{font-family:Baghdad,serif;font-size:28px;color:#2FA37B;direction:rtl}
+  .greg{margin-top:8px;font-size:19px;letter-spacing:.22em;color:#79798A}
+
+  /* --- tiga kolom: rel · panggung · jam --- */
+  .body{display:grid;grid-template-columns:452px 1fr 486px;gap:0;
+    padding:28px 0 14px;align-items:stretch}
+
+  /* ============ REL KIRI ============ */
+  .rail{display:flex;flex-direction:column;gap:9px;padding-right:34px}
+  .bay{position:relative;flex:1;display:grid;
+    grid-template-columns:1fr auto;align-items:center;
+    padding:0 26px 0 30px;background:rgba(255,255,255,.026);
+    border-radius:0 46% 46% 0 / 0 50% 50% 0;overflow:hidden}
+  .bay .lbl{font-size:24px;letter-spacing:.20em}
+  .bay .ar{font-family:Baghdad,serif;font-size:17px;color:#79798A;
+    direction:rtl;margin-top:4px}
+  .bay .tm{font-size:41px;font-weight:600;font-variant-numeric:tabular-nums;
+    letter-spacing:.008em}
+  .bay.past{background:rgba(255,255,255,.010)}
+  .bay.past .lbl,.bay.past .ar,.bay.past .tm{color:#4A4A58}
+
+  /* Elemen tanda tangan pada rel: relung menyorong ke kanan */
+  .bay.next{background:
+      radial-gradient(58% 100% at 88% 50%, rgba(47,163,123,.30), transparent 72%),
+      rgba(255,255,255,.070);
+    box-shadow:inset -2px 0 0 rgba(47,163,123,.60);
+    margin-right:-40px;
+    border-radius:0 42% 42% 0 / 0 50% 50% 0}
+  .bay.next .lbl{color:#2FA37B;letter-spacing:.22em}
+  .bay.next .tm{font-size:46px}
+  .bay.next .cd{font-family:Menlo,monospace;font-size:20px;color:#2FA37B;
+    margin-top:5px;letter-spacing:.05em;text-align:right}
+
+  /* ============ PANGGUNG: PAPAN JADWAL ============ */
+  .stage{padding:0 40px;border-left:2px solid #2A2A33;border-right:2px solid #2A2A33;
+    display:flex;flex-direction:column;justify-content:center}
+  .eyebrow{font-size:18px;letter-spacing:.34em;color:#2FA37B;margin-bottom:8px}
+  .srow{display:grid;grid-template-columns:26px 1fr auto;align-items:baseline;
+    gap:20px;padding:19px 6px;border-bottom:1px solid #2A2A33}
+  .srow:last-child{border-bottom:none}
+  .srow .mark{width:6px;height:6px;border-radius:50%;background:transparent;
+    justify-self:center;position:relative;top:-4px}
+  .srow .name{font-size:33px;letter-spacing:.14em}
+  .srow .name span{font-family:Baghdad,serif;font-size:22px;color:#79798A;
+    margin-left:18px;direction:rtl}
+  .srow .t{font-size:39px;font-weight:600;font-variant-numeric:tabular-nums}
+  .srow.past .name,.srow.past .t,.srow.past .name span{color:#4A4A58}
+  .srow.now .mark{background:#2FA37B;box-shadow:0 0 0 5px rgba(47,163,123,.20)}
+  .srow.now .name,.srow.now .t{color:#2FA37B}
+
+  /* ============ JAM ============ */
+  .clock{padding-left:40px;display:flex;flex-direction:column;
+    justify-content:center;align-items:flex-end;text-align:right}
+  .time{font-size:170px;font-weight:600;letter-spacing:-.015em;line-height:.84;
+    font-variant-numeric:tabular-nums}
+  .time small{font-size:64px;color:#79798A}
+  .zone{margin-top:20px;font-size:19px;letter-spacing:.30em;color:#79798A}
+  .togo{margin-top:52px;padding-top:24px;border-top:2px solid #2A2A33;width:100%}
+  .togo .k{font-size:17px;letter-spacing:.30em;color:#79798A}
+  .togo .v{margin-top:12px;font-family:Menlo,monospace;font-size:45px;color:#2FA37B}
+
+  footer{border-top:2px solid #2A2A33;display:flex;align-items:center;
+    font-size:26px;color:#ECEAE4;white-space:nowrap;overflow:hidden}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="photo">
+    <svg viewBox="0 0 1400 760" preserveAspectRatio="none">
+      <g fill="#000">
+        <circle cx="700" cy="420" r="250"/>
+        <rect x="640" y="60" width="26" height="300"/>
+        <rect x="300" y="300" width="150" height="460" rx="75"/>
+        <rect x="980" y="300" width="150" height="460" rx="75"/>
+        <rect x="0" y="600" width="1400" height="160"/>
+      </g>
+    </svg>
+  </div>
+  <div class="scrim"></div>
+
+  <div class="content">
+    <header>
+      <div>
+        <div class="mosque">MASJID AL-FALAH</div>
+        <div class="city">JAKARTA SELATAN</div>
+      </div>
+      <div class="dates">
+        <div class="hijri">١٧ رَبيع الأوّل ١٤٤٧</div>
+        <div class="greg">SENIN, 31 AGUSTUS 2026</div>
+      </div>
+    </header>
+
+    <div class="body">
+      <!-- rel kiri -->
+      <div class="rail">
+        <div class="bay past"><div><div class="lbl">IMSAK</div><div class="ar">إمساك</div></div><div class="tm">04:28</div></div>
+        <div class="bay past"><div><div class="lbl">SUBUH</div><div class="ar">الفجر</div></div><div class="tm">04:38</div></div>
+        <div class="bay past"><div><div class="lbl">TERBIT</div><div class="ar">الشروق</div></div><div class="tm">05:53</div></div>
+        <div class="bay past"><div><div class="lbl">DZUHUR</div><div class="ar">الظهر</div></div><div class="tm">11:56</div></div>
+        <div class="bay past"><div><div class="lbl">ASHAR</div><div class="ar">العصر</div></div><div class="tm">15:14</div></div>
+        <div class="bay next"><div><div class="lbl">MAGHRIB</div><div class="ar">المغرب</div></div><div><div class="tm">17:52</div><div class="cd">−00:27:52</div></div></div>
+        <div class="bay"><div><div class="lbl">ISYA</div><div class="ar">العشاء</div></div><div class="tm">19:02</div></div>
+      </div>
+
+      <!-- panggung -->
+      <div class="stage">
+        <div class="eyebrow">JADWAL HARI INI</div>
+        <div class="srow past"><div class="mark"></div><div class="name">Imsak <span>إمساك</span></div><div class="t">04:28</div></div>
+        <div class="srow past"><div class="mark"></div><div class="name">Subuh <span>الفجر</span></div><div class="t">04:38</div></div>
+        <div class="srow past"><div class="mark"></div><div class="name">Terbit <span>الشروق</span></div><div class="t">05:53</div></div>
+        <div class="srow past"><div class="mark"></div><div class="name">Dzuhur <span>الظهر</span></div><div class="t">11:56</div></div>
+        <div class="srow past"><div class="mark"></div><div class="name">Ashar <span>العصر</span></div><div class="t">15:14</div></div>
+        <div class="srow now"><div class="mark"></div><div class="name">Maghrib <span>المغرب</span></div><div class="t">17:52</div></div>
+        <div class="srow"><div class="mark"></div><div class="name">Isya <span>العشاء</span></div><div class="t">19:02</div></div>
+      </div>
+
+      <!-- jam -->
+      <div class="clock">
+        <div class="time">17:24<small>:08</small></div>
+        <div class="zone">WIB</div>
+        <div class="togo">
+          <div class="k">MENUJU MAGHRIB</div>
+          <div class="v">00:27:52</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Infak pembangunan menara telah mencapai Rp 412.750.000 — terima kasih atas dukungan jamaah  ·  Kerja bakti Sabtu ba'da Subuh</footer>
+  </div>
+</div>
+</body>
+</html>

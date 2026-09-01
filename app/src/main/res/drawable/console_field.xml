@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  A field is drawn as four corner brackets rather than a closed box.
+
+  Each layer below is a full outline, then two masking rectangles in the fill
+  colour: one inset from the sides, which erases the middle of the top and
+  bottom edges, and one inset from the top and bottom, which erases the middle
+  of the left and right edges. What survives is the corners.
+
+  This is the one loud element on these screens, and it is loud where it does
+  the most work: on a TV the only interaction is focus, so where the remote is
+  pointing has to be visible from the back of the office. Resting brackets are
+  a dim structural line; the focused ones light cyan and the fill warms.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_field_hot" />
+                    <stroke
+                        android:width="2dp"
+                        android:color="@color/console_cyan" />
+                </shape>
+            </item>
+            <item
+                android:left="18dp"
+                android:right="18dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_field_hot" />
+                </shape>
+            </item>
+            <item
+                android:bottom="12dp"
+                android:top="12dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_field_hot" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_enabled="false">
+        <!--
+          A locked field keeps its brackets in brass: it is not broken, it is
+          settled. The mosque profile locks after saving, and this is what the
+          caretaker sees when they wonder why typing does nothing.
+        -->
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_panel" />
+                    <stroke
+                        android:width="2dp"
+                        android:color="@color/console_brass" />
+                </shape>
+            </item>
+            <item
+                android:left="18dp"
+                android:right="18dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_panel" />
+                </shape>
+            </item>
+            <item
+                android:bottom="12dp"
+                android:top="12dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_panel" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_field" />
+                    <stroke
+                        android:width="2dp"
+                        android:color="@color/console_line" />
+                </shape>
+            </item>
+            <item
+                android:left="18dp"
+                android:right="18dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_field" />
+                </shape>
+            </item>
+            <item
+                android:bottom="12dp"
+                android:top="12dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/console_field" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+</selector>

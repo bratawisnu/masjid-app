@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/console_void"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="48dp"
+        android:paddingEnd="48dp"
+        android:paddingTop="36dp"
+        android:paddingBottom="48dp">
+
+        <TextView
+            style="@style/ConsoleTitle"
+            android:text="Panel Kendali" />
+
+        <TextView
+            style="@style/ConsoleSubtitle"
+            android:layout_marginBottom="24dp"
+            android:text="Semua yang tampil di layar serambi diatur dari sini." />
+
+        <!-- Mosque & Location -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Masjid &amp; Lokasi" />
+
+            <!--
+              Saved data is locked. These five fields set the prayer schedule for
+              the whole mosque, and a stray D-pad press on a remote left on a chair
+              could otherwise shift the coordinates without anyone noticing until
+              Subuh is called at the wrong minute. Reset is the deliberate act that
+              reopens them. Locked fields go brass, matching the display's own
+              accent — settled, not broken.
+            -->
+            <TextView android:id="@+id/text_mosque_status"
+                style="@style/ConsoleValue"
+                android:layout_marginBottom="12dp" />
+
+            <EditText android:id="@+id/input_mosque_name" android:hint="Nama Masjid" />
+            <EditText android:id="@+id/input_address" android:hint="Alamat" />
+            <EditText android:id="@+id/input_city" android:hint="Kota" />
+            <EditText android:id="@+id/input_latitude" android:hint="Latitude"
+                style="@style/ConsoleFieldData"
+                android:inputType="numberDecimal|numberSigned" />
+            <EditText android:id="@+id/input_longitude" android:hint="Longitude"
+                style="@style/ConsoleFieldData"
+                android:inputType="numberDecimal|numberSigned" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_save_mosque" android:text="Simpan" />
+                <Button android:id="@+id/btn_reset_mosque" android:text="Reset &amp; Ubah"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Prayer -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Metode &amp; Koreksi Sholat" />
+
+            <Spinner android:id="@+id/spinner_calculation_method" />
+            <Spinner android:id="@+id/spinner_madhab" />
+
+            <TextView
+                style="@style/ConsoleNote"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:text="Koreksi dalam menit, boleh negatif — untuk menyelaraskan dengan jadwal yang sudah dipakai jamaah." />
+
+            <EditText android:id="@+id/input_correction_imsak" android:hint="Koreksi Imsak (menit)"
+                style="@style/ConsoleFieldData" android:inputType="numberSigned" />
+            <EditText android:id="@+id/input_correction_subuh" android:hint="Koreksi Subuh (menit)"
+                style="@style/ConsoleFieldData" android:inputType="numberSigned" />
+            <EditText android:id="@+id/input_correction_dhuhr" android:hint="Koreksi Dzuhur (menit)"
+                style="@style/ConsoleFieldData" android:inputType="numberSigned" />
+            <EditText android:id="@+id/input_correction_asr" android:hint="Koreksi Ashar (menit)"
+                style="@style/ConsoleFieldData" android:inputType="numberSigned" />
+            <EditText android:id="@+id/input_correction_maghrib" android:hint="Koreksi Maghrib (menit)"
+                style="@style/ConsoleFieldData" android:inputType="numberSigned" />
+            <EditText android:id="@+id/input_correction_isha" android:hint="Koreksi Isya (menit)"
+                style="@style/ConsoleFieldData" android:inputType="numberSigned" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_save_prayer" android:text="Simpan Metode &amp; Koreksi" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Theme -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Tema" />
+
+            <LinearLayout
+                android:id="@+id/theme_list_container"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Display -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Tampilan" />
+
+            <LinearLayout style="@style/ConsoleSwitchRow">
+                <TextView style="@style/ConsoleSwitchLabel" android:text="Tampilkan Jam" />
+                <Switch android:id="@+id/switch_clock_visible" style="@style/ConsoleSwitch" />
+            </LinearLayout>
+            <LinearLayout style="@style/ConsoleSwitchRow">
+                <TextView style="@style/ConsoleSwitchLabel" android:text="Format 24 Jam" />
+                <Switch android:id="@+id/switch_24hour" style="@style/ConsoleSwitch" />
+            </LinearLayout>
+            <LinearLayout style="@style/ConsoleSwitchRow">
+                <TextView style="@style/ConsoleSwitchLabel" android:text="Tampilkan Jadwal Sholat" />
+                <Switch android:id="@+id/switch_prayer_panel_visible" style="@style/ConsoleSwitch" />
+            </LinearLayout>
+            <LinearLayout style="@style/ConsoleSwitchRow">
+                <TextView style="@style/ConsoleSwitchLabel" android:text="Tampilkan Logo" />
+                <Switch android:id="@+id/switch_logo_visible" style="@style/ConsoleSwitch" />
+            </LinearLayout>
+            <LinearLayout style="@style/ConsoleSwitchRow">
+                <TextView style="@style/ConsoleSwitchLabel" android:text="Tampilkan Slider Gambar" />
+                <Switch android:id="@+id/switch_slider_visible" style="@style/ConsoleSwitch" />
+            </LinearLayout>
+            <LinearLayout style="@style/ConsoleSwitchRow">
+                <TextView style="@style/ConsoleSwitchLabel" android:text="Tampilkan Running Text" />
+                <Switch android:id="@+id/switch_running_text_visible" style="@style/ConsoleSwitch" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_save_display" android:text="Simpan Tampilan" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Running Text -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Running Text / Pengumuman" />
+
+            <LinearLayout
+                android:id="@+id/announcement_list_container"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText android:id="@+id/input_new_announcement" android:hint="Teks pengumuman baru" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_add_announcement" android:text="Tambah Pengumuman" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Background -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Gambar Latar" />
+
+            <TextView android:id="@+id/text_background_current"
+                style="@style/ConsoleValue" />
+
+            <TextView android:id="@+id/text_background_warning"
+                style="@style/ConsoleNote"
+                android:textColor="@color/console_warning"
+                android:visibility="gone"
+                android:layout_marginTop="6dp" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_pick_background" android:text="Pilih Gambar" />
+                <Button android:id="@+id/btn_clear_background" android:text="Hapus"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Slides: gambar, video lokal, video jaringan, teks -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Slide" />
+
+            <TextView
+                style="@style/ConsoleNote"
+                android:layout_marginBottom="10dp"
+                android:text="Tampil bergantian di panggung layar. Slide video berjalan selama durasi videonya, tanpa suara." />
+
+            <LinearLayout
+                android:id="@+id/image_list_container"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_add_image" android:text="Tambah Gambar" />
+                <Button android:id="@+id/btn_add_video" android:text="Tambah Video"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+
+            <EditText android:id="@+id/input_slide_video_url"
+                style="@style/ConsoleFieldData"
+                android:hint="Alamat video (.mp4 atau .m3u8)"
+                android:inputType="textUri"
+                android:layout_marginTop="14dp" />
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_add_video_url" android:text="Tambah Video URL" />
+            </LinearLayout>
+
+            <EditText android:id="@+id/input_slide_text" android:hint="Isi slide teks"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="2"
+                android:gravity="top|start"
+                android:layout_marginTop="14dp" />
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_add_text" android:text="Tambah Teks" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Time -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Waktu" />
+
+            <EditText android:id="@+id/input_timezone"
+                style="@style/ConsoleFieldData"
+                android:hint="Timezone (contoh: Asia/Jakarta)" />
+            <EditText android:id="@+id/input_time_offset"
+                style="@style/ConsoleFieldData"
+                android:hint="Koreksi Jam (menit)"
+                android:inputType="numberSigned" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_save_time" android:text="Simpan Waktu" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Screensaver -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Screensaver / Hemat Energi" />
+
+            <LinearLayout style="@style/ConsoleSwitchRow">
+                <TextView style="@style/ConsoleSwitchLabel" android:text="Aktifkan Screensaver" />
+                <Switch android:id="@+id/switch_screensaver_enabled" style="@style/ConsoleSwitch" />
+            </LinearLayout>
+
+            <EditText android:id="@+id/input_screensaver_start"
+                style="@style/ConsoleFieldData"
+                android:hint="Mulai (HH:mm, contoh 23:00)" />
+            <EditText android:id="@+id/input_screensaver_end"
+                style="@style/ConsoleFieldData"
+                android:hint="Selesai (HH:mm, contoh 04:00)" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_save_screensaver" android:text="Simpan Screensaver" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- System -->
+        <LinearLayout style="@style/ConsolePanel">
+
+            <TextView
+                style="@style/AdminSectionTitle"
+                android:text="Sistem" />
+
+            <TextView android:id="@+id/text_app_version"
+                style="@style/ConsoleValue"
+                android:fontFamily="monospace"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/ConsoleButtonRow">
+                <Button android:id="@+id/btn_change_pin" android:text="Ubah PIN Admin" />
+                <Button android:id="@+id/btn_restart_display" android:text="Kembali ke Display"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

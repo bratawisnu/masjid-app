@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      The display screen. Its colours come from the active theme at runtime
+      (see ThemeManager), so nothing here may tint it.
+    -->
+    <style name="Theme.MasjidDisplay" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:colorBackground">@color/black</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!--
+      The console: admin, setup wizard, PIN and file picker.
+
+      These screens are the instrument panel behind the mihrab — one caretaker,
+      one remote, arm's length from the box. They deliberately do not look like
+      the display: cooler, harder-edged, and lit only where the remote is
+      pointing. Setting the styles here rather than on each widget keeps the
+      layouts readable and stops the two identities drifting apart.
+    -->
+    <style name="Theme.MasjidConsole" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/console_void</item>
+        <item name="android:colorBackground">@color/console_void</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:textColorPrimary">@color/console_text</item>
+        <item name="android:textColorSecondary">@color/console_text_muted</item>
+        <item name="android:textColorHint">@color/console_text_muted</item>
+        <item name="colorAccent">@color/console_cyan</item>
+
+        <!--
+          Unprefixed attrs: AppCompat inflates EditText/Button/Spinner as its own
+          AppCompat* subclasses, and those read appcompat's attrs, not the
+          framework's. These cover appearance only — a style reached this way is
+          a defStyleAttr, and layout_width/height/margin are never read from one.
+          Every widget in the layouts therefore also carries style="..." on the
+          tag itself, which is the form that does carry layout params.
+        -->
+        <item name="editTextStyle">@style/ConsoleField</item>
+        <item name="buttonStyle">@style/ConsoleButton</item>
+        <item name="spinnerStyle">@style/ConsoleSpinner</item>
+    </style>
+
+    <!--
+      Screen title. Wide-tracked condensed caps: this is the one place the type
+      is allowed to behave like signage rather than like a form label.
+    -->
+    <style name="ConsoleTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/console_text</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.22</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!--
+      Sits above the title. In the wizard it carries "Langkah 3 / 5", which is
+      information the caretaker needs — the steps are a real sequence and they
+      cannot skip one. Elsewhere it names which screen they are on.
+    -->
+    <style name="ConsoleStepMark">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/console_cyan</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:letterSpacing">0.16</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <!-- Sits under the title and says what the screen is for. -->
+    <style name="ConsoleSubtitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/console_text_muted</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+
+    <!--
+      Module heading, inside the panel it names. Cyan, tracked, caps — the same
+      treatment as the title one step quieter, so the hierarchy is one idea
+      rather than two.
+    -->
+    <style name="AdminSectionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/console_cyan</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.20</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginBottom">12dp</item>
+    </style>
+
+    <!-- The slab a module sits on; see console_panel.xml for the spine. -->
+    <style name="ConsolePanel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/console_panel</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingBottom">18dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <!-- Prose inside a module: hints, status lines, summaries. -->
+    <style name="ConsoleNote">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/console_text_muted</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ConsoleValue" parent="ConsoleNote">
+        <item name="android:textColor">@color/console_text</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--
+      The bracketed field. Padding is generous on purpose: the corner brackets
+      need room to read as corners, and a TV is watched from further away than
+      a phone is held.
+    -->
+    <style name="ConsoleField" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/console_field</item>
+        <item name="android:textColor">@color/console_field_text</item>
+        <item name="android:textColorHint">@color/console_text_muted</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <!--
+      Instrument data — coordinates, minute corrections, clock times, PINs,
+      URLs. Monospace because the digits line up and because these are readings,
+      not prose; it also makes a mistyped minus sign or colon obvious.
+    -->
+    <style name="ConsoleFieldData" parent="ConsoleField">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:letterSpacing">0.06</item>
+    </style>
+
+    <style name="ConsoleButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/console_button</item>
+        <item name="android:textColor">@color/console_button_text</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.10</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingStart">22dp</item>
+        <item name="android:paddingEnd">22dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="ConsoleSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/console_field</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="ConsoleSwitch">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:track">@drawable/console_switch_track</item>
+        <item name="android:thumb">@drawable/console_switch_thumb</item>
+    </style>
+
+    <!-- Label beside a switch; carries the row's height so the two align. -->
+    <style name="ConsoleSwitchLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/console_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ConsoleSwitchRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="ConsoleButtonRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+
+</resources>
